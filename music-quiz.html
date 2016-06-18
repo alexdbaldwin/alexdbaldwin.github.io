@@ -1,0 +1,97 @@
+<html>
+<head>
+<script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
+<script type="text/javascript">
+	var applicationID = "467E0860";
+	var namespace = 'urn:x-cast:com.google.cast.musicquiz';
+	var session = null;
+
+
+
+	window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
+	  if (loaded) {
+		initializeCastApi();
+	  } else {
+		console.log(errorInfo);
+	  }
+	}
+	
+	initializeCastApi = function() {
+		var sessionRequest = new chrome.cast.SessionRequest(applicationID);
+		var apiConfig = new chrome.cast.ApiConfig(sessionRequest, sessionListener, receiverListener);
+		chrome.cast.initialize(apiConfig, onInitSuccess, onError);
+	};
+	
+	function onInitSuccess() {
+		console.log("onInitSuccess");
+	}
+
+	function onError(message) {
+		console.log("onError: " + JSON.stringify(message));
+	}
+	
+	function onSuccess(message) {
+		console.log("onError: " + JSON.stringify(message));
+	}
+	
+	
+	
+	function sessionListener(e) {
+		console.log('New session ID: ' + e.sessionId);
+		session = e;
+		session.addUpdateListener(sessionUpdateListener);  
+		//session.addMessageListener(namespace, receiverMessage);
+	}
+	
+	function sessionUpdateListener(isAlive) {
+		var message = isAlive ? 'Session Updated' : 'Session Removed';
+		message += ': ' + session.sessionId;
+		console.log(message);
+		if (!isAlive) {
+			session = null;
+		}
+	}
+	
+	
+	function receiverListener(e) {
+		if( e === chrome.cast.ReceiverAvailability.AVAILABLE) {
+			console.log("receiver found");
+		}
+		else {
+			console.log("receiver list empty");
+		}
+	}
+	
+	
+	
+	
+	function requestSession(){
+		//chrome.cast.requestSession(onRequestSessionSuccess, onLaunchError);
+	}
+	
+	function sendMessage() {
+		var message = "Bananas in pyjamas!";
+		if (session != null) {
+			session.sendMessage(namespace, message,  onSuccess.bind(this, "Message sent: " + message), onError);
+		}
+		else {
+			chrome.cast.requestSession(function(e) {
+				session = e;
+				session.sendMessage(namespace, message, onSuccess.bind(this, "Message sent: " + message), onError);
+			  }, onError);
+		  }
+	}
+	
+	function onRequestSessionSuccess(e) {
+		session = e;
+	}
+	
+</script>
+</head>
+<body>
+<input type="button" value="Cast" onclick="requestSession();">
+<input type="button" value="Message" onclick="sendMessage();">
+
+</body>
+
+</html>

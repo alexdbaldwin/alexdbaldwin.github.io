@@ -72,7 +72,7 @@
                 success: function(response) {
 					var video = $("#spotifyplayer")[0];
 					video.src = response.tracks.items[0].preview_url;
-					displayText(response.tracks.items[0].preview_url);
+					displayText(response.tracks.items[0].name);
 					video.load();
 					video.play();
                 }

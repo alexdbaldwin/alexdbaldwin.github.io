@@ -64,18 +64,19 @@
         window.messageBus.onMessage = function(event) {
 			console.log('Message [' + event.senderId + ']: ' + event.data);
 			// display the message from the sender
-			displayText(event.data);
 			
 			
-			/*$.ajax({
+			
+			$.ajax({
 				url: 'https://api.spotify.com/v1/search?type=track&q=' + event.data,
                 success: function(response) {
 					var video = $("#spotifyplayer")[0];
 					video.src = response.tracks.items[0].preview_url;
+					displayText(response.tracks.items[0].preview_url);
 					video.load();
 					video.play();
                 }
-			});*/
+			});
 			
 			
 			

@@ -81,11 +81,6 @@
 					//video.src = response.
 					console.log(response);
 					console.log(response.tracks.items[0].preview_url);
-					
-					var video = $("#spotifyplayer")[0];
-					video.src = response.tracks.items[0].preview_url;
-					video.load();
-					video.play();
                 }
 			});
 		
@@ -111,7 +106,6 @@
 <input type="button" value="Cast" onclick="requestSession();">
 <input type="button" value="Message" onclick="sendMessage();">
 <input type="text" id="searchstring">
-<video name="media" id="spotifyplayer"></video>
 
 </body>
 

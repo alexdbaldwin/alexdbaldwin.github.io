@@ -24,7 +24,7 @@
   </head>
   <body>
 	<DIV id="message">Talk to me</DIV>
-	<video controls name="media" id="spotifyplayer"></video>
+	<video name="media" id="spotifyplayer"></video>
     <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
     <script type="text/javascript">
       window.onload = function() {
@@ -71,7 +71,9 @@
 				url: 'https://api.spotify.com/v1/search?type=track&q=' + event.data,
                 success: function(response) {
 					var video = $("#spotifyplayer")[0];
-					video.src = response.
+					video.src = response.tracks.items[0].preview_url;
+					video.load();
+					video.play();
                 }
 			});*/
 			

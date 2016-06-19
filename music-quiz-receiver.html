@@ -20,10 +20,11 @@
 	}
     </style>
     <title>Cast Hello Text</title>
+	<script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
   </head>
   <body>
 	<DIV id="message">Talk to me</DIV>
-	<video controls autoplay name="media"><source src="https://p.scdn.co/mp3-preview/11be5e52df6fdc3b91f9fa6bd4b50491e5adff3b" type="audio/mpeg"></video>
+	<video controls name="media" id="spotifyplayer"></video>
     <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
     <script type="text/javascript">
       window.onload = function() {
@@ -64,6 +65,18 @@
 			console.log('Message [' + event.senderId + ']: ' + event.data);
 			// display the message from the sender
 			displayText(event.data);
+			
+			
+			/*$.ajax({
+				url: 'https://api.spotify.com/v1/search?type=track&q=' + event.data,
+                success: function(response) {
+					var video = $("#spotifyplayer")[0];
+					video.src = response.
+                }
+			});*/
+			
+			
+			
 			// inform all senders on the CastMessageBus of the incoming message event
 			// sender message listener will be invoked
 			window.messageBus.send(event.senderId, event.data);

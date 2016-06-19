@@ -1,5 +1,6 @@
 <html>
 <head>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
 <script type="text/javascript">
 	var applicationID = "467E0860";
@@ -70,7 +71,19 @@
 	}
 	
 	function sendMessage() {
-		var message = "Bananas in pyjamas!";
+		var message = $("searchstring").val();
+		
+		
+		$.ajax({
+				url: 'https://api.spotify.com/v1/search?type=track&q=' + message,
+                success: function(response) {
+					//var video = $("#spotifyplayer")[0];
+					//video.src = response.
+					console.log(response);
+                }
+			});
+		
+		
 		if (session != null) {
 			session.sendMessage(namespace, message,  onSuccess.bind(this, "Message sent: " + message), onError);
 		}
@@ -91,6 +104,7 @@
 <body>
 <input type="button" value="Cast" onclick="requestSession();">
 <input type="button" value="Message" onclick="sendMessage();">
+<input type="text" id="searchstring">
 
 </body>
 

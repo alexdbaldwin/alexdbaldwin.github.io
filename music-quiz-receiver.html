@@ -199,7 +199,6 @@
 				
 			setTimeout(function(){
 				video2.load();
-				video2.pause();
 				setInterval(function(){
 					if(selected == 1){
 						selected = 2;
@@ -208,7 +207,6 @@
 						video2.play();
 						
 						video1.load();
-						video1.pause();
 						
 					}
 					else {
@@ -218,7 +216,7 @@
 						video1.play();
 						
 						video2.load();
-						video2.pause();
+
 					}
 				},10000);
 			}, 5000);

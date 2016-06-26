@@ -176,6 +176,7 @@
 		var video2;
 		var url;
 		var selected = 1;
+		var seekTo = 0;
 		
 		window.messageBus2.onMessage = function(event) {
 			console.log('Message [' + event.senderId + ']: ' + event.data);
@@ -188,6 +189,13 @@
 			video1.load();
 			video1.play();
 			
+			/*video1.addEventListener('loadedmetadata', function() {
+				  this.currentTime = seekTo;
+				}, false);
+				video2.addEventListener('loadedmetadata', function() {
+				  this.currentTime = seekTo;
+				}, false);*/
+			
 				
 			setTimeout(function(){
 				video2.load();
@@ -196,17 +204,23 @@
 					if(selected == 1){
 						selected = 2;
 						
+						video2.currentTime = video1.currentTime;
+						video2.play();
+						
 						video1.load();
 						video1.pause();
-						video2.play();
+						
 					}
 					else {
 						selected = 1;
+						
+						video1.currentTime = video1.currentTime;
+						video1.play();
+						
 						video2.load();
 						video2.pause();
-						video1.play();
 					}
-				},5000);
+				},10000);
 			}, 5000);
         }
 		

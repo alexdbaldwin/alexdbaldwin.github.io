@@ -188,6 +188,7 @@
 			video2.src = url;
 			video1.load();
 			video1.play();
+			video2.load();
 			
 			/*video1.addEventListener('loadedmetadata', function() {
 				  this.currentTime = seekTo;
@@ -197,29 +198,26 @@
 				}, false);*/
 			
 				
-			setTimeout(function(){
-				video2.load();
-				setInterval(function(){
-					if(selected == 1){
-						selected = 2;
-						
-						video2.currentTime = video1.currentTime;
-						video2.play();
-						
-						video1.load();
-						
-					}
-					else {
-						selected = 1;
-						
-						video1.currentTime = video2.currentTime;
-						video1.play();
-						
-						video2.load();
+			setInterval(function(){
+				if(selected == 1){
+					selected = 2;
+					
+					video2.currentTime = video1.currentTime;
+					video2.play();
+					
+					video1.load();
+					
+				}
+				else {
+					selected = 1;
+					
+					video1.currentTime = video2.currentTime;
+					video1.play();
+					
+					video2.load();
 
-					}
-				},5000);
-			}, 5000);
+				}
+			},5000);
         }
 		
 		

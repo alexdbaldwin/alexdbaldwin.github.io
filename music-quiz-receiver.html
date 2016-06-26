@@ -26,6 +26,7 @@
 	<DIV id="message">Talk to me</DIV>
 	<video name="media" id="spotifyplayer"></video>
 	<video id='nanohttpdstream'/>
+	<video id='nanohttpdstream2'/>
 	
     <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
 	<script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/mediaplayer/1.0.0/media_player.js"></script>
@@ -34,8 +35,8 @@
         cast.receiver.logger.setLevelValue(0);
 		
 		
-		window.mediaElement = document.getElementById('nanohttpdstream');
-		window.mediaManager = new cast.receiver.MediaManager(window.mediaElement);
+		//window.mediaElement = document.getElementById('nanohttpdstream');
+		//window.mediaManager = new cast.receiver.MediaManager(window.mediaElement);
 		
 		
 		
@@ -169,6 +170,47 @@
         };
         // create a CastMessageBus to handle messages for a custom namespace
         window.messageBus = window.castReceiverManager.getCastMessageBus('urn:x-cast:com.google.cast.musicquiz');
+		window.messageBus2 = window.castReceiverManager.getCastMessageBus('urn:x-cast:com.google.cast.musicquiz2');
+		
+		var video1;
+		var video2;
+		var url;
+		var selected = 1;
+		
+		window.messageBus2.onMessage = function(event) {
+			console.log('Message [' + event.senderId + ']: ' + event.data);
+			// display the message from the sender
+			url = event.data;
+			video1 = $("#nanohttpdstream")[0];
+			video2 = $("#nanohttpdstream2")[0];
+			video1.src = url;
+			video2.src = url;
+			video1.load();
+			video1.play();
+			
+				
+			setTimeout(function(){
+				video2.load();
+				video2.pause();
+				setInterval(function(){
+					if(selected == 1){
+						selected = 2;
+						
+						video1.load();
+						video1.pause();
+						video2.play();
+					}
+					else {
+						selected = 1;
+						video2.load();
+						video2.pause();
+						video1.play();
+					}
+				},5000);
+			}, 5000);
+        }
+		
+		
 		
 		// handler for the CastMessageBus message event
         window.messageBus.onMessage = function(event) {
